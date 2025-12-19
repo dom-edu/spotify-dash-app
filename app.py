@@ -46,7 +46,14 @@ def update_pie(value):
 
 
 
-    fig = px.pie(top_genre_types_df, values="count", names=top_genre_types_df.index, title='Most Populare Genre by Year')
+    fig = px.pie(top_genre_types_df, 
+                 values="count", 
+                 names=top_genre_types_df.index, 
+                 title='Most Populare Genre by Year'
+                 )
+    
+    fig.update_layout(height=700)
+
 
     return fig
 
