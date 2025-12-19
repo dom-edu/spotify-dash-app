@@ -22,29 +22,41 @@ app = Dash(__name__, title="Spotify App")
 graph1 = dcc.Graph(id="pie-chart-1")
 
 dd1  = dcc.Dropdown(spotify_df.Year.unique(), 
+                    2022,
                     placeholder="Select a year...", 
                     id="dd-year")
+
+slider = dcc.RangeSlider(1952, 2025, marks=None, value=[], id="slider-1")
 
 app.layout = [
         html.H1(children = "Spotify Data", style={'textAlign': 'center'}),
         dd1,
-        graph1 
+        slider,
+        graph1,
+    
 ]
 
 @callback(
     Output('pie-chart-1', 'figure'),
-    Input('dd-year', 'value')
+    Input('dd-year', 'value'),
+    Input('slider-1','value')
 
 )
-def update_pie(value):
+def update_pie(value, slider_vals):
+
+
+
+
 
     cond1 = value == spotify_df.Year
     cond2 = "UNKNOWN" != spotify_df.artist_genres
-    
 
+    # top_genre_types_df = pd.DataFrame()
+    # if slider_vals:
+    #     cond3 = spotify_df.Year.isin(slider_vals)
+    #     top_genre_types_df = spotify_df[cond1 & cond3 ]['artist_genres'].value_counts()
+    # else:
     top_genre_types_df = spotify_df[cond1 & cond2]['artist_genres'].value_counts()[:20]
-
-
 
     fig = px.pie(top_genre_types_df, 
                  values="count", 
